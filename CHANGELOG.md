@@ -284,6 +284,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **code:** fix two `CodeAwareCompressor` AST-reassembly bugs: an exported JS/TS function or class (`export function foo() {`) produced a duplicated `export export` keyword and invalid syntax, because line-based node slicing (used to preserve indentation) pulled in the preceding `export` sibling's text on top of the `export_statement` handler's own prefix reconstruction. Separately, in every supported language, a doc comment immediately above a top-level function, class, or type was detached from its declaration during extraction and re-emitted in a cluster at the end of the compressed output instead of staying attached to what it documents.
 - * **proxy:** Buffered upstream responses containing a `server_tool_use` (or any other unrecognized Anthropic content block) no longer turn a fully-generated response into an HTTP 502. `StreamingMixin._response_to_sse` raised `ValueError` on unknown block types after the entire upstream generation had already been buffered, so a slow-but-successful response failed and the client retried the whole multi-minute request. Unknown blocks are now emitted verbatim in `content_block_start` (following the existing redacted_thinking` pattern), so `server_tool_use`, `server_tool_result`, `mcp_tool_use`, and future block types round-trip ([#1806](https://github.com/headroomlabs-ai/headroom/issues/1806)).
 
+## [0.34.0](https://github.com/headroomlabs-ai/headroom/compare/v0.33.0...v0.34.0) (2026-08-02)
+
+
+### Features
+
+* **code:** add PHP support to CodeAwareCompressor ([#2423](https://github.com/headroomlabs-ai/headroom/issues/2423)) ([6d5516d](https://github.com/headroomlabs-ai/headroom/commit/6d5516dcb878b6ffd139a1c7b3d480a1c8c1beb9))
+* **compress:** reach the lossless provider seam on the general path and default /v1/compress to marker-free output ([#2691](https://github.com/headroomlabs-ai/headroom/issues/2691)) ([f2c48e2](https://github.com/headroomlabs-ai/headroom/commit/f2c48e26c684a31e2802de9f49ce2075ef9cbf4b))
+
+
+### Bug Fixes
+
+* **kompress:** load merged.pt for the v2 checkpoint instead of the unmerged PEFT safetensors ([#2716](https://github.com/headroomlabs-ai/headroom/issues/2716)) ([46da91b](https://github.com/headroomlabs-ai/headroom/commit/46da91b2f1370b6b4910ae8a4ad0613929803887))
+* remove rtk and lean-ctx CLI context tools ([#2677](https://github.com/headroomlabs-ai/headroom/issues/2677)) ([e0ce4b1](https://github.com/headroomlabs-ai/headroom/commit/e0ce4b1d4817e1b352e68e8b316273d863260ba7))
+* **wrap/serena:** stop creating serena_config.yml, unbricking Serena on fresh installs ([#2676](https://github.com/headroomlabs-ai/headroom/issues/2676)) ([759209c](https://github.com/headroomlabs-ai/headroom/commit/759209cff3daa72dd9d47e57568e731d10573d63))
+
+
+### Code Refactoring
+
+* remove the dead headroom/prediction module ([#2692](https://github.com/headroomlabs-ai/headroom/issues/2692)) ([b7a79ac](https://github.com/headroomlabs-ai/headroom/commit/b7a79ac31a99ec67dc5fbe7bd15e7b96f8c040ec))
+
 ## [0.33.0](https://github.com/headroomlabs-ai/headroom/compare/v0.32.0...v0.33.0) (2026-07-29)
 
 
